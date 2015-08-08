@@ -79,7 +79,7 @@ Pipelines + Other Objects -> Pipe network
 	if(can_unwrench && istype(W, /obj/item/weapon/wrench))
 		var/turf/T = get_turf(src)
 		if (level==1 && isturf(T) && T.intact)
-			user << "<span class='warning'>You must remove the plating first!</span>"
+			user << "<span class='warning'>¡Debes quitar el chapado primero!</span>"
 			return 1
 		var/datum/gas_mixture/int_air = return_air()
 		var/datum/gas_mixture/env_air = loc.return_air()
@@ -89,17 +89,17 @@ Pipelines + Other Objects -> Pipe network
 		var/internal_pressure = int_air.return_pressure()-env_air.return_pressure()
 
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-		user << "<span class='notice'>You begin to unfasten \the [src]...</span>"
+		user << "<span class='notice'>Comienzas a desatornillar \the [src]...</span>"
 		if (internal_pressure > 2*ONE_ATMOSPHERE)
-			user << "<span class='warning'>As you begin unwrenching \the [src] a gush of air blows in your face... maybe you should reconsider?</span>"
+			user << "<span class='warning'>Cuando comienzas a quitar \the [src] un chorro de aire choca en tu cara... quizá deberías pensártelo mejor.</span>"
 			unsafe_wrenching = TRUE //Oh dear oh dear
 
 		if (do_after(user, 20, target = src) && !gc_destroyed)
 			user.visible_message( \
 				"[user] unfastens \the [src].", \
-				"<span class='notice'>You unfasten \the [src].</span>", \
-				"<span class='italics'>You hear ratchet.</span>")
-			investigate_log("was <span class='warning'>REMOVED</span> by [key_name(usr)]", "atmos")
+				"<span class='notice'>Desatornillas \the [src].</span>", \
+				"<span class='italics'>Oyes las herramientas.</span>")
+			investigate_log("was <span class='warning'>Quitado</span> by [key_name(usr)]", "atmos")
 
 			//You unwrenched a pipe full of pressure? let's splat you into the wall silly.
 			if(unsafe_wrenching)
@@ -123,7 +123,7 @@ Pipelines + Other Objects -> Pipe network
 
 	var/fuck_you_dir = get_dir(src,user)
 	var/turf/general_direction = get_edge_target_turf(user,fuck_you_dir)
-	user.visible_message("<span class='danger'>[user] is sent flying by pressure!</span>","<span class='userdanger'>The pressure sends you flying!</span>")
+	user.visible_message("<span class='danger'>[user] sale volando por la presión!</span>","<span class='userdanger'>¡La presión te manda a volar!</span>")
 	//Values based on 2*ONE_ATMOS (the unsafe pressure), resulting in 20 range and 4 speed
 	user.throw_at(general_direction,pressures/10,pressures/50)
 
@@ -201,7 +201,7 @@ Pipelines + Other Objects -> Pipe network
 		if(is_type_in_list(target_move, ventcrawl_machinery) && target_move.can_crawl_through())
 			user.remove_ventcrawl()
 			user.forceMove(target_move.loc) //handle entering and so on.
-			user.visible_message("<span class='notice'>You hear something squeezing through the ducts...</span>","<span class='notice'>You climb out the ventilation system.")
+			user.visible_message("<span class='notice'>Escuchas algo arrastrarse por los conductos...</span>","<span class='notice'>Trepas por el sistema de ventilación.")
 		else if(target_move.can_crawl_through())
 			if(returnPipenet() != target_move.returnPipenet())
 				user.update_pipe_vision(target_move)
@@ -214,7 +214,7 @@ Pipelines + Other Objects -> Pipe network
 		if((direction & initialize_directions) || is_type_in_list(src, ventcrawl_machinery) && can_crawl_through()) //if we move in a way the pipe can connect, but doesn't - or we're in a vent
 			user.remove_ventcrawl()
 			user.forceMove(src.loc)
-			user.visible_message("<span class='notice'>You hear something squeezing through the ducts...</span>","<span class='notice'>You climb out the ventilation system.")
+			user.visible_message("<span class='notice'>Escuchas algo arrastrarse por los conductos...</span>","<span class='notice'>Trepas por el sistema de ventilación.")
 	user.canmove = 0
 	spawn(1)
 		user.canmove = 1
